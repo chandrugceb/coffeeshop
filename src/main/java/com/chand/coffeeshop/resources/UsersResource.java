@@ -16,6 +16,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins="http://localhost:4200",allowedHeaders = "*")
 public class UsersResource {
 
     @Autowired

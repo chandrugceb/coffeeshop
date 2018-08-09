@@ -1,0 +1,26 @@
+<div class="container">
+  <form #registerForm="ngForm" (ngSubmit)="registerUser(user)">
+    <div class="form-group">
+      <label for="userName">User Name</label>
+      <input type="text" name="userName" class="form-control" [(ngModel)]="user.userName">
+    </div>    
+    <div class="form-group" [class.has-error]='userPassword.touched && userPassword.invalid'>
+      <label for="userPassword" class="control-label">Password</label>
+      <input required type="password"  name="userPassword" class="form-control" 
+            [(ngModel)]="user.userPassword" #userPassword="ngModel">
+      <span class="help-block" *ngIf="userPassword.touched && userPassword.errors?.required">
+        Password is required!
+      </span>
+    </div>
+    
+    <div class="form-group" [class.has-error]='confirmPassword.touched && confirmPassword.invalid'>
+        <label for="confirmPassword" class="control-label">Confirm Password</label>
+        <input required type="password"  name="confirmPassword" class="form-control" 
+              [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel">
+        <span class="help-block" *ngIf="confirmPassword.touched && confirmPassword.errors?.required">
+          Confirm Password is required!
+        </span>
+      </div>
+      <button class="btn btn-success">Register</button>
+  </form>
+</div>
