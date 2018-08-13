@@ -1,26 +1,64 @@
 import { Injectable } from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import{HttpClient, HttpResponse, HttpHeaders} from '@angular/common/http';
 
 import {User} from '../user';
+import { Registeruser } from '../registeruser';
+import { Order } from '../order';
+import { Neworderdetail } from '../neworderdetail';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl:string='http://localhost:8080/api';
-  private headers = new Headers({'Content-Type':'application/json'});
-  private requestOptions = new RequestOptions({headers:this.headers});
+  private baseUrl:string='http://localhost:8080';
+  private noAuthheaders = new HttpHeaders({'Content-Type':'application/json','No-Auth':'true'});  
+  private authheaders = new HttpHeaders({'Content-Type':'application/json'});
 
-  constructor(private _http:Http) { }
+  constructor(private _http:HttpClient) { }
 
   getUsers(){
-    return this._http.get(this.baseUrl+'/users',this.requestOptions);
+    return this._http.get(this.baseUrl+'/api/secured/users',{headers:this.noAuthheaders});
   }
 
-  registerUser(user:User){
-    return this._http.post(this.baseUrl+'/users',JSON.stringify(user),this.requestOptions)
-              .subscribe((res:Response)=>res.json());
+  getCurrentUser(){
+    return this._http.get(this.baseUrl+'/api/secured/currentuser',{headers:this.authheaders});
   }
+
+  getOrders(){
+    return this._http.get(this.baseUrl+'/api/secured/myorders',{headers:this.authheaders});
+  }
+
+  registerUser(user:Registeruser){
+    return this._http.post(this.baseUrl+'/api/signup',JSON.stringify(user),{headers:this.noAuthheaders});
+  }
+
+  addOrder(customerName:String){
+    const newOrder = "{\"customerName\":\""+customerName+"\",\"orderTimeStamp\":\""+this.formatDate(new Date()) +"\"}";
+    return this._http.post(this.baseUrl+'/api/secured/order',newOrder,{headers:this.authheaders});
+  }
+
+  addOrderDetail(orderId:Number,newOrderDetail:Neworderdetail){
+    console.log("add order detail");
+    return this._http.post(this.baseUrl+'/api/secured/order/'+orderId+'/orderdetails',JSON.stringify(newOrderDetail),{headers:this.authheaders});
+  }
+  
+
+  login(un:string, ps:string){
+    const data = "{\"userName\":\""+un+"\",\"userPassword\":\""+ps+"\"}";
+    return this._http.post(this.baseUrl+'/api/login', data, {headers:this.noAuthheaders});
+  }
+
+  formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 
 
 }

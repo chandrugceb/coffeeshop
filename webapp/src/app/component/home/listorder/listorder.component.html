@@ -1,0 +1,43 @@
+ <h2 >Active Orders</h2>
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Order Id</th>
+        <th scope="col">Customer Name</th>
+        <th scope="col">Order Price</th>
+        <th scope="col">Order Time</th>        
+        <th scope="col">Order Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of pendingOrders" >
+              <td>{{order.orderId}}</td>
+              <td>{{order.customerName}}</td>
+              <td>{{order.orderTotalPrice}}</td>
+              <td>{{order.orderTimeStamp}}</td>          
+              <td>{{order.orderStatus}}</td>
+        </tr>      
+    </tbody>
+  </table>
+
+  <h2>Completed Orders</h2>
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Order Id</th>
+        <th scope="col">Customer Name</th>
+        <th scope="col">Order Price</th>
+        <th scope="col">Order Time</th>        
+        <th scope="col">Order Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of completedOrders" >
+              <td>{{order.orderId}}</td>
+              <td>{{order.customerName}}</td>
+              <td>{{order.orderTotalPrice}}</td>
+              <td>{{order.orderTimeStamp}}</td>          
+              <td>{{order.orderStatus}}</td>
+        </tr>      
+    </tbody>
+  </table>

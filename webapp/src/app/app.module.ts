@@ -4,29 +4,42 @@ import {RouterModule, Routes} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './component/register/register.component';
-import { LoginComponent } from './component/login/login.component';
-import { HttpModule } from '@angular/http';
-
-const appRoute:Routes = [
-{path:'login',component:LoginComponent},
-{path:'register',component:RegisterComponent}
-];
+import { RegisterComponent } from './component/user/register/register.component';
+import { LoginComponent } from './component/user/login/login.component';
+import { HttpClientModule } from '@angular/common/http';
+import { UserComponent } from './component/user/user.component';
+import { HomeComponent } from './component/home/home.component';
+import {appRoutes} from './routes';
+import { UserService } from './shared_service/user.service';
+import { AuthGuard } from './auth/auth.guard';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { ListorderComponent } from './component/home/listorder/listorder.component';
+import { AddeditorderComponent } from './component/home/addeditorder/addeditorder.component';
+import { ProductService } from './shared_service/product.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    UserComponent,
+    HomeComponent,
+    ListorderComponent,
+    AddeditorderComponent
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoute)
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [UserService,AuthGuard,{
+    provide:HTTP_INTERCEPTORS,
+    useClass:AuthInterceptor,
+    multi:true
+  }, ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

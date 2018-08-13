@@ -15,12 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin(origins="http://localhost:8080",allowedHeaders = "*")
+@CrossOrigin(origins="http://localhost:4200")
 public class UsersResource {
 
     @Autowired
@@ -48,6 +47,7 @@ public class UsersResource {
         if(token != null)
         {
             res.setStatus(HttpServletResponse.SC_CREATED);
+            token = "{\"token\":\""+token+"\"}";
             return token;
         }
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -1,0 +1,27 @@
+<div class="tab-pane active in" >
+    <form #loginForm="ngForm" class="form-horizontal col s12 white" (ngSubmit)="OnSubmit(UserName.value,Password.value)">
+      <div class="row">
+        <div class="form-group input-field col s12">
+          <!-- Username -->
+          <label for="username">Username</label>
+            <input type="text" #UserName ngModel name="username" placeholder="User Name" class="form-control" required>
+         </div>
+      </div>
+      <div class="row">
+        <div class="form-group input-field col s12">
+          <!-- Password-->
+          <label for="password">Password</label>
+            <input type="password" #Password ngModel name="password" placeholder="Password" class="form-control" required>
+        </div>
+      </div>
+      <div class="row">    
+        <div class="form-group">
+          <!-- Button -->
+            <button [disabled]="!loginForm.valid" class="btn btn-success">Login</button>
+        </div>
+      </div>
+      <div *ngIf="isLoginError" class="alert alert-danger">
+          <strong>Error!</strong> {{LoginError}}
+        </div>
+    </form>                
+  </div>

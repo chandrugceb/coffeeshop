@@ -1,0 +1,38 @@
+<div class="tab-pane active in" >
+    <form class="form-horizontal" #registerForm="ngForm" class="form-horizontal col s12 white" (ngSubmit)="OnRegister()">
+        <div *ngIf="isRegisterError" class="alert alert-danger">
+            <strong>Error!</strong> {{RegisterMessage}}
+          </div>
+          
+        <div *ngIf="isRegisterSuccess" class="alert alert-success">
+            <strong>Success!</strong> {{RegisterMessage}}
+          </div>
+        <div class="form-group">
+            <!-- Username -->
+            <label for="username">Username</label>
+              <input type="text" [(ngModel)]="user.userName" name="userName" placeholder="User Name" class="form-control">
+           </div>
+  
+          <div class="form-group">
+            <!-- Password-->
+            <label for="userPassword">Password</label>
+              <input type="password" [(ngModel)]="user.userPassword" name="userPassword" placeholder="Password" class="form-control">
+          </div>
+          
+          <div class="form-group">
+              <!-- Confirm Password-->
+              <label for="confirmPassword">Confirm Password</label>
+                <input type="password" [(ngModel)]="user.userConfirmPassword" name="userConfirmPassword" placeholder="Confirm Password" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <!-- DOB -->
+                <label for="dob">Date of Birth</label>
+                  <input type="text" [(ngModel)]="user.DOB" name="DOB" placeholder="YYYY-MM-DD" class="form-control">
+               </div>
+      <div>
+        <button class="btn btn-primary">Create Account</button>
+      </div>
+      
+    </form>
+  </div>

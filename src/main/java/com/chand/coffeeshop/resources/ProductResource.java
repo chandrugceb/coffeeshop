@@ -16,12 +16,12 @@ public class ProductResource {
     @Autowired
     ProductRepository productRepository;
 
-    @GetMapping("/products")
+    @GetMapping("/secured/products")
     public List<Product> getProducts(){
         return productRepository.findAll();
     }
 
-    @PostMapping("/products")
+    @PostMapping("/secured/products")
     public Product addProduct(@RequestBody Product product){
         System.out.println(product);
         return productRepository.save(product);
