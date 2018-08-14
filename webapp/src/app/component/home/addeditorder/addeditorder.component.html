@@ -1,8 +1,10 @@
 <div class="container">
-<h2>Add Order</h2>
+<h2 *ngIf="!isOrderAdded">Add Order</h2>
+<h2 *ngIf="isOrderAdded">Edit Order <strong>{{order.orderId}}</strong> for <strong></strong>{{order.customerName}}</h2>
 <div class="tab-pane active in" >
     <form class="form-horizontal" #addorderForm="ngForm" class="form-horizontal col s12 white" (ngSubmit)="addOrder()">
-            <div class="form-group input-field col s6">
+
+            <div *ngIf="!isOrderAdded" class="form-group input-field col s6">
                     <label for="customer">Customer Name</label>
                     <input [(ngModel)]="customer" name="cust" class="form-control" required>
             </div> 
@@ -24,4 +26,27 @@
            </div>
     </form>
 </div>
+<br/>
+<div  *ngIf="isOrderDetailAdded">
+    <h2>Orders Details</h2>
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+            <th scope="col">Order Detail ID</th>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Line Price</th>        
+            <th scope="col">Order Line Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let orderdetail of orderdetaillist" >
+                    <td>{{orderdetail.orderDetailId}}</td>
+                    <td>{{orderdetail.product.productName}}</td>
+                    <td>{{orderdetail.quantity}}</td>
+                    <td>${{orderdetail.linePrice}}</td>          
+                    <td>{{orderdetail.orderDetailStatus}}</td>
+            </tr>      
+        </tbody>
+    </table>
 </div>

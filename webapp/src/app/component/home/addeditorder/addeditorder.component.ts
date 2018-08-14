@@ -17,10 +17,11 @@ export class AddeditorderComponent implements OnInit {
   isOrderDetailAdded:boolean=false;
   private selectedProduct:Product;
   private orderId:Number;
-  private order:any;
+  order:any;
   private customer:String;
   private quantity:Number;
-  private orderdetail:Neworderdetail;
+  private neworderdetail:Neworderdetail;  
+  private orderdetaillist:any[]=[];
   constructor(private _productService:ProductService, private _userService:UserService) { }
 
   ngOnInit() {
@@ -41,6 +42,7 @@ export class AddeditorderComponent implements OnInit {
         this.order = res;
         this.isOrderAdded=true;
         console.log("RP1");
+        console.log(this.order);
         this.addOrderDetail();
       },(err)=>{});
     }
@@ -50,13 +52,16 @@ export class AddeditorderComponent implements OnInit {
     }
   }
   addOrderDetail(){
-    this.orderdetail = {
+    this.neworderdetail = {
       quantity:this.quantity,
       product:this.selectedProduct
     }
-    this._userService.addOrderDetail(this.order.orderId,this.orderdetail).subscribe((res)=>{
-      this.order = res;
-      this.isOrderDetailAdded=true;
+    this._userService.addOrderDetail(this.order.orderId,this.neworderdetail).subscribe((res)=>{
+      //this.order = res;
+      this.orderdetaillist.push(res);
+      this.isOrderDetailAdded=true;      
+      console.log("RP2");
+      console.log(this.order);
     },(err)=>{})
   }
 
