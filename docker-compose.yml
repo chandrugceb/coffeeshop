@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=coffeeDB
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    volumes:
+      - /mnt/shared:/var/lib/mysql
+    ports:
+      - 3306:3306
+  server:
+    build: ./
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+  client:
+    build: ./webapp
+    ports:
+      - 80:80
+    depends_on:
+      - server
+
