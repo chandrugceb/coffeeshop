@@ -4,23 +4,43 @@ services:
     image: mysql:8
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=coffeeDB
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
-    volumes:
-      - /mnt/shared:/var/lib/mysql
+      - MYSQL_DATABASE=coffeedb
+#      - MYSQL_USER=root
+#      - MYSQL_PASSWORD=root
+#    volumes:
+#      - /mnt/shared:/var/lib/mysql
     ports:
       - 3306:3306
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    deploy:
+      placement:
+        constraints:
+          - node.labels.type == db
   server:
-    build: ./
-    ports:
-      - 8080:8080
+    image: chandrugceb/coffeeshop_server:1.0
     depends_on:
       - db
-  client:
-    build: ./webapp
+    restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/coffeedb
     ports:
-      - 80:80
+      - 8080:8080
+    deploy:
+      placement:
+        constraints:
+          - node.labels.type == app
+
+  client:
+    image: chandrugceb/coffeeshop_client:1.0
     depends_on:
       - server
-
+    ports:
+      - 80:80
+    deploy:
+      placement:
+        constraints:
+          - node.labels.type == app

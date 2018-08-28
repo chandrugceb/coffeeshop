@@ -10,11 +10,14 @@ import { Neworderdetail } from '../neworderdetail';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl:string='http://localhost:8080';
+  private baseUrl:string;
   private noAuthheaders = new HttpHeaders({'Content-Type':'application/json','No-Auth':'true'});  
   private authheaders = new HttpHeaders({'Content-Type':'application/json'});
 
-  constructor(private _http:HttpClient) { }
+  constructor(private _http:HttpClient) {
+    this.baseUrl='http://'+window.location.hostname+':8080';
+    console.log("user service : " + this.baseUrl);
+   }
 
   getUsers(){
     return this._http.get(this.baseUrl+'/api/secured/users',{headers:this.noAuthheaders});
